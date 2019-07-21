@@ -35,11 +35,9 @@ app.use((req, res, next) => {
 
 // 設定路由
 // 首頁
-app.get('/', (req, res) => {
-  res.send('hello world')
-})
-
+app.use('/', require('./routes/home'))
 app.use('/users', require('./routes/user'))
+app.use('/todos', require('./routes/todo'))
 // 認證系統的路由
 // 登入頁面
 
