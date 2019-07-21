@@ -7,19 +7,22 @@ const db = require('../models')
 const User = db.User
 
 // 登入頁面
-router.get('/users/login', (req, res) => {
+router.get('/login', (req, res) => {
   res.render('login')
 })
 // 登入檢查
-router.post('/users/login', (req, res) => {
-  res.send('login')
+router.post('/login', (req, res, next) => {
+  passport.authenticate('local', {
+    successRedirect: '/',
+    failureRedirect: '/users/login'
+  })(req, res, next)
 })
 // 註冊頁面
-router.get('/users/register', (req, res) => {
+router.get('/register', (req, res) => {
   res.render('register')
 })
 // 註冊檢查
-router.post('/users/register', (req, res) => {
+router.post('/register', (req, res) => {
   const { name, email, password, password2 } = req.body
   User.findOne({ where: { email: email } }).then(user => {
     if (user) {
@@ -47,7 +50,7 @@ router.post('/users/register', (req, res) => {
   })
 })
 // 登出
-router.get('/users/logout', (req, res) => {
+router.get('/logout', (req, res) => {
   res.send('logout')
 })
 
